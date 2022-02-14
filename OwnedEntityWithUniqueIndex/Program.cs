@@ -23,5 +23,5 @@ using (var context = new OwnedEntityContext())
     context.Entry(child).Reference(e => e.Owned).TargetEntry!.Property<Guid>(nameof(Child.ParentId))
     .CurrentValue = child.ParentId;
 
-    context.SaveChanges();
+    context.BulkInsert(new[] { child });
 }
