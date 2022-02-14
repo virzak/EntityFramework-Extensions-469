@@ -1,15 +1,21 @@
-﻿using (var context = new OwnedEntityContext())
+﻿var parent = new Parent { Id = Guid.NewGuid() };
+
+using (var context = new OwnedEntityContext())
 {
     context.Database.EnsureDeleted();
     context.Database.EnsureCreated();
 
-    var parent = new Parent { Id = Guid.NewGuid() };
     context.Add(parent);
 
+    context.SaveChanges();
+}
+
+using (var context = new OwnedEntityContext())
+{
     var child = new Child
     {
         Id = Guid.NewGuid(),
-        Parent = parent,
+        ParentId = parent.Id,
         Owned = new() { Value = 3 }
     };
     context.Add(child);
