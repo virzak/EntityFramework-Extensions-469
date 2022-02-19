@@ -15,6 +15,7 @@ using (var context = new OwnedEntityContext())
     var child = new Child
     {
         Id = Guid.NewGuid(),
+        Description = "123",
         ParentId = parent.Id,
         Owned = new() { Value = 3 }
     };
@@ -25,4 +26,10 @@ using (var context = new OwnedEntityContext())
     //.CurrentValue = child.ParentId;
 
     context.BulkInsert(new[] { child });
+}
+
+using (var context = new OwnedEntityContext())
+{
+    context.Children
+        .UpdateFromQuery(f => new Child { Description = "456" });
 }
